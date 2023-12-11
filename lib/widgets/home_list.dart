@@ -9,6 +9,7 @@ class HomeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<BookProvider>().fetchAll();
     List<Book> bookList = context.watch<BookProvider>().bookList;
     return GridView.builder(
       padding: const EdgeInsets.all(8.0),

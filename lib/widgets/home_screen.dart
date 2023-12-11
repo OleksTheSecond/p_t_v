@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:p_t_v/database/book_db.dart';
 import 'package:p_t_v/model/book.dart';
 import 'package:p_t_v/providers/book_provider.dart';
 import 'package:p_t_v/widgets/home_list.dart';
@@ -35,6 +36,7 @@ class HomeScreen extends StatelessWidget {
 
             // ignore: use_build_context_synchronously
             context.read<BookProvider>().addBookToBookList(book);
+            await BookDB().create(book: book);
           }
         },
       ),
