@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:p_t_v/model/book.dart';
+import 'package:p_t_v/providers/book_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeListItem extends StatefulWidget {
   const HomeListItem({super.key, required this.book});
@@ -11,21 +13,24 @@ class HomeListItem extends StatefulWidget {
 }
 
 class _HomeListItemState extends State<HomeListItem> {
-  double opacityLevel = 1.0;
+  double opacityLevel = 0.0;
+  bool marked = false;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [bookItem(context), greenContainer(), tapItem()],
+      children: [
+        pdfTile(context),
+        markedTile(),
+        tapingTile(context),
+      ],
     );
   }
 
-  Widget greenContainer() {
+  Widget markedTile() {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 700),
-      color: !widget.book.checked
-          ? Colors.transparent
-          : Colors.green.withOpacity(0.85),
+      color: !marked ? Colors.transparent : Colors.green.withOpacity(0.85),
       curve: Curves.linear,
       child: Center(
           child: AnimatedOpacity(
@@ -39,13 +44,13 @@ class _HomeListItemState extends State<HomeListItem> {
     );
   }
 
-  Widget bookItem(BuildContext context) {
+  Widget pdfTile(BuildContext context) {
     return Container(
       decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       child: GridTile(
         footer: GridTileBar(
           title: Text(
-            "${widget.book.name} // ${widget.book.id}",
+            widget.book.name,
             style: const TextStyle(color: Colors.black),
           ),
           backgroundColor:
@@ -63,12 +68,14 @@ class _HomeListItemState extends State<HomeListItem> {
     );
   }
 
-  Widget tapItem() {
+  Widget tapingTile(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
         setState(() {
-          widget.book.checked = !widget.book.checked;
-          opacityLevel = opacityLevel == 0 ? 1.0 : 0.0;
+          marked = !marked;
+          widget.book.checked = marked;
+          opacityLevel = opacityLevel == 0.0 ? 1.0 : 0.0;
+          context.read<BookProvider>().markBook(widget.book);
         });
       },
     );

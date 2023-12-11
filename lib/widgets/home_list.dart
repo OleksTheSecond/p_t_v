@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:p_t_v/model/book.dart';
 import 'package:p_t_v/providers/book_provider.dart';
 import 'package:p_t_v/widgets/home_list_item.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +8,21 @@ class HomeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<BookProvider>().fetchAll();
-    List<Book> bookList = context.watch<BookProvider>().bookList;
+    return Consumer<BookProvider>(
+      builder: (context, bookProvider, child) {
+        bookProvider.fetchAll();
+        return BooksList(bookProvider: bookProvider);
+      },
+    );
+  }
+}
+
+class BooksList extends StatelessWidget {
+  const BooksList({super.key, required this.bookProvider});
+  final BookProvider bookProvider;
+
+  @override
+  Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.all(8.0),
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -20,9 +32,9 @@ class HomeList extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
       itemBuilder: (context, index) {
-        return HomeListItem(book: bookList[index]);
+        return HomeListItem(book: bookProvider.bookList[index]);
       },
-      itemCount: bookList.length,
+      itemCount: bookProvider.bookList.length,
     );
   }
 }

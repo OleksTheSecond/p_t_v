@@ -4,6 +4,8 @@ import 'package:p_t_v/model/book.dart';
 
 class BookProvider extends ChangeNotifier {
   final List<Book> bookList = [];
+  final List<Book> markedBook = [];
+
   final BookDB _bookDB = BookDB();
 
   BookProvider();
@@ -24,6 +26,16 @@ class BookProvider extends ChangeNotifier {
   void deleteBook(Book book) async {
     bookList.remove(book);
     await _bookDB.deleteByPath(book);
+    notifyListeners();
+  }
+
+  void markBook(Book book) {
+    if (!markedBook.any((element) => element.id == book.id) && book.checked) {
+      markedBook.add(book);
+    } else if (markedBook.any((element) => element.id == book.id) &&
+        !book.checked) {
+      markedBook.removeWhere((element) => element.id == book.id);
+    }
     notifyListeners();
   }
 }
