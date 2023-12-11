@@ -29,8 +29,8 @@ class _HomeListItemState extends State<HomeListItem> {
       child: Center(
           child: AnimatedOpacity(
         opacity: opacityLevel,
-        duration: Duration(milliseconds: 400),
-        child: Icon(
+        duration: const Duration(milliseconds: 400),
+        child: const Icon(
           Icons.check,
           size: 60,
         ),
