@@ -11,7 +11,6 @@ class HomeListItem extends StatefulWidget {
 }
 
 class _HomeListItemState extends State<HomeListItem> {
-  bool tapped = false;
   double opacityLevel = 1.0;
 
   @override
@@ -24,7 +23,9 @@ class _HomeListItemState extends State<HomeListItem> {
   Widget greenContainer() {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 700),
-      color: !tapped ? Colors.transparent : Colors.green.withOpacity(0.85),
+      color: !widget.book.checked
+          ? Colors.transparent
+          : Colors.green.withOpacity(0.85),
       curve: Curves.linear,
       child: Center(
           child: AnimatedOpacity(
@@ -44,7 +45,7 @@ class _HomeListItemState extends State<HomeListItem> {
       child: GridTile(
         footer: GridTileBar(
           title: Text(
-            widget.book.name,
+            "${widget.book.name} // ${widget.book.id}",
             style: const TextStyle(color: Colors.black),
           ),
           backgroundColor:
@@ -66,7 +67,7 @@ class _HomeListItemState extends State<HomeListItem> {
     return GestureDetector(
       onLongPress: () {
         setState(() {
-          tapped = !tapped;
+          widget.book.checked = !widget.book.checked;
           opacityLevel = opacityLevel == 0 ? 1.0 : 0.0;
         });
       },
