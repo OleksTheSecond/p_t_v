@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:p_t_v/providers/book_provider.dart';
-import 'package:p_t_v/widgets/home_screen.dart';
+import 'package:p_t_v/widgets/home_screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

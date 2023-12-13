@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:p_t_v/model/book.dart';
 import 'package:p_t_v/providers/book_provider.dart';
+import 'package:p_t_v/widgets/second_screen/pdf_sceen.dart';
 import 'package:provider/provider.dart';
 
 class HomeListItem extends StatefulWidget {
@@ -70,6 +71,10 @@ class _HomeListItemState extends State<HomeListItem> {
 
   Widget tapingTile(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => PDFScreen(book: widget.book)));
+      },
       onLongPress: () {
         setState(() {
           marked = !marked;

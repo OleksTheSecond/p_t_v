@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:p_t_v/model/book.dart';
 import 'package:p_t_v/providers/book_provider.dart';
-import 'package:p_t_v/widgets/home_list.dart';
+import 'package:p_t_v/widgets/home_screen/home_list.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {

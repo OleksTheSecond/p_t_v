@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:p_t_v/providers/book_provider.dart';
-import 'package:p_t_v/widgets/home_list_item.dart';
+import 'package:p_t_v/widgets/home_screen/home_list_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeList extends StatelessWidget {
