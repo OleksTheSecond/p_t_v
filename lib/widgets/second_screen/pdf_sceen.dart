@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:p_t_v/model/book.dart';
+import 'package:p_t_v/widgets/second_screen/extract_text.dart';
+import 'package:p_t_v/widgets/second_screen/pdf_file_body.dart';
 
 class PDFScreen extends StatelessWidget {
   const PDFScreen({super.key, required this.book});
@@ -9,32 +10,15 @@ class PDFScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: PDFFile(
+        appBar: AppBar(
+          title: const Text("PDFToVoice"),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          actions: [
+            ExtractText(path: book.path),
+          ],
+        ),
+        body: PDFFileBody(
           path: book.path,
         ));
-  }
-}
-
-class PDFFile extends StatelessWidget {
-  const PDFFile({super.key, required this.path});
-  final String path;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        PDFView(
-          filePath: path,
-          enableSwipe: true,
-          autoSpacing: false,
-          pageFling: true,
-          pageSnap: true,
-          fitPolicy: FitPolicy.BOTH,
-          defaultPage: 0,
-          preventLinkNavigation: false,
-        ),
-      ],
-    );
   }
 }
