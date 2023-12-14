@@ -1,20 +1,18 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:p_t_v/model/book.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ExtractText extends StatelessWidget {
-  const ExtractText({super.key, required this.path});
-  final String path;
+  const ExtractText({super.key, required this.book});
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () async {
           PdfDocument document =
-              PdfDocument(inputBytes: _readDocumentData(path));
+              PdfDocument(inputBytes: _readDocumentData(book.path));
           PdfTextExtractor extractor = PdfTextExtractor(document);
           String text = extractor.extractText(startPageIndex: 1);
 
@@ -23,9 +21,9 @@ class ExtractText extends StatelessWidget {
               builder: (BuildContext context) {
                 return AlertDialog(
                   content: SingleChildScrollView(
-                    child: Text(text),
-                    physics: BouncingScrollPhysics(
+                    physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
+                    child: Text(text),
                   ),
                 );
               });

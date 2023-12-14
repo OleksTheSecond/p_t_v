@@ -11,6 +11,7 @@ class BookDB {
       "id" INTEGER NOT NULL,
       "name" TEXT NOT NULL,
       "path" TEXT NOT NULL,
+      "current_page" INTEGER NOT NULL,
       PRIMARY KEY("id" AUTOINCREMENT)
     );
 """);
@@ -19,8 +20,8 @@ class BookDB {
   Future<int> create({required Book book}) async {
     final Database database = await DatabaseService().database;
     return await database.rawInsert(
-      '''INSERT INTO $tableName (name, path) VALUES (?, ?)''',
-      [book.name, book.path],
+      '''INSERT INTO $tableName (name, path, current_page) VALUES (?, ?, ?)''',
+      [book.name, book.path, book.currentPage],
     );
   }
 
@@ -44,6 +45,7 @@ class BookDB {
       {
         'name': book.name,
         'path': book.path,
+        'current_page': book.currentPage,
       },
       where: "id = ?",
       whereArgs: [id],

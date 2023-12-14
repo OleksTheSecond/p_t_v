@@ -14,7 +14,7 @@ class PDFScreen extends StatelessWidget {
           title: const Text("PDFToVoice"),
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           actions: [
-            ExtractText(path: book.path),
+            ExtractText(book: book),
           ],
         ),
         body: PDFFileBody(

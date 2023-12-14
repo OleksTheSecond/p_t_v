@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:p_t_v/database/book_db.dart';
 import 'package:p_t_v/model/book.dart';
 
-class BookProvider extends ChangeNotifier {
+class BooksProvider extends ChangeNotifier {
   final List<Book> bookList = [];
   final List<Book> markedBook = [];
+  bool isListLoaded = false;
 
-  final BookDB _bookDB = BookDB();
+  BooksProvider();
 
-  BookProvider();
+  void setIsListLoaded() {
+    isListLoaded = !isListLoaded;
+    notifyListeners();
+  }
 
-  void addBookToBookList(Book book) async {
+  void addBookToBookList(Book book) {
     bookList.add(book);
-    await _bookDB.create(book: book);
     notifyListeners();
   }
 
-  void fetchAll() async {
-    final books = await _bookDB.fetchAll();
+  void clearBookList() {
     bookList.clear();
-    bookList.addAll(books);
-    notifyListeners();
   }
 
-  void deleteBook(Book book) async {
+  void addAllToBookList(List<Book> bookList) {
+    this.bookList.addAll(bookList);
+  }
+
+  void deleteBook(Book book) {
     bookList.remove(book);
-    await _bookDB.deleteByPath(book);
     notifyListeners();
   }
 
   void markBook(Book book) {
     if (!markedBook.any((element) => element.id == book.id) && book.checked) {
       markedBook.add(book);
-    } else if (markedBook.any((element) => element.id == book.id) &&
-        !book.checked) {
+    } else if (markedBook.any((element) => element.id == book.id)) {
       markedBook.removeWhere((element) => element.id == book.id);
     }
     notifyListeners();

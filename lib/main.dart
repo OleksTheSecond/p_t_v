@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
-import 'package:p_t_v/providers/book_provider.dart';
+import 'package:p_t_v/providers/books_provider.dart';
 import 'package:p_t_v/widgets/home_screen/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => BookProvider()),
+        ChangeNotifierProvider(create: (context) => BooksProvider()),
       ],
       child: MaterialApp(
         theme: themeData,

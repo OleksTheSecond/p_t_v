@@ -16,5 +16,6 @@ class Book {
   factory Book.fromSQLDatabase(Map<String, dynamic> map) => Book(
       name: map['name'] ?? "",
       path: map['path'] ?? "",
+      currentPage: map['current_page']?.toInt() ?? 0,
       id: map['id']?.toInt() ?? 0);
 }
