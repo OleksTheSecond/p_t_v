@@ -32,9 +32,6 @@ class _HomeListItemTappingTileState extends State<HomeListItemTappingTile> {
         setState(() {
           widget.book.checked = !widget.book.checked;
           context.read<BooksProvider>().markBook(widget.book);
-
-          print(
-              "LENGTH MARKED BOOK: ${context.read<BooksProvider>().markedBook.length}");
         });
       },
     );
@@ -43,6 +40,7 @@ class _HomeListItemTappingTileState extends State<HomeListItemTappingTile> {
   void unMarked() {
     setState(() {
       widget.book.checked = false;
+      context.read<BooksProvider>().markBook(widget.book);
     });
   }
 }

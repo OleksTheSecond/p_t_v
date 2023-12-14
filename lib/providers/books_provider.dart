@@ -3,8 +3,8 @@ import 'package:p_t_v/model/book.dart';
 
 class BooksProvider extends ChangeNotifier {
   final List<Book> bookList = [];
-  final List<Book> markedBook = [];
   bool isListLoaded = false;
+  int markedItemsCount = 0;
 
   BooksProvider();
 
@@ -28,15 +28,41 @@ class BooksProvider extends ChangeNotifier {
 
   void deleteBook(Book book) {
     bookList.remove(book);
+    markedItemsCount = markedItemsCount - 1;
+    notifyListeners();
+  }
+
+  void markAll() {
+    for (Book element in bookList) {
+      element.checked = true;
+    }
+    markedItemsCount = bookList.length;
+    print(markedItemsCount);
+    notifyListeners();
+  }
+
+  void unMarkAll() {
+    for (Book element in bookList) {
+      element.checked = false;
+    }
+    markedItemsCount = 0;
+    print(markedItemsCount);
     notifyListeners();
   }
 
   void markBook(Book book) {
-    if (!markedBook.any((element) => element.id == book.id) && book.checked) {
-      markedBook.add(book);
-    } else if (markedBook.any((element) => element.id == book.id)) {
-      markedBook.removeWhere((element) => element.id == book.id);
+    for (Book element in bookList) {
+      if (element.id == book.id) {
+        element.checked = book.checked;
+      }
     }
+    if (book.checked) {
+      markedItemsCount = markedItemsCount + 1;
+    }
+    if (!book.checked) {
+      markedItemsCount = markedItemsCount - 1;
+    }
+    print(markedItemsCount);
     notifyListeners();
   }
 }

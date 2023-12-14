@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:p_t_v/database/book_db.dart';
 import 'package:p_t_v/model/book.dart';
 import 'package:p_t_v/providers/books_provider.dart';
+import 'package:p_t_v/widgets/animation_widgets/animation_opacity.dart';
 import 'package:p_t_v/widgets/home_screen/home_list.dart';
+import 'package:p_t_v/widgets/home_screen/home_list_app_bar_actions/delete_books.dart';
+import 'package:p_t_v/widgets/home_screen/home_list_bottom_app_bar_actions/check_all_action.dart';
+import 'package:p_t_v/widgets/home_screen/home_list_bottom_app_bar_actions/uncheck_all_action.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,9 +19,18 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: [
+          LinearAnimationOpacity(
+              opacity: context.watch<BooksProvider>().markedItemsCount > 0
+                  ? 1.0
+                  : 0.0,
+              child: const DeleteBooks())
+        ],
       ),
       body: const HomeList(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.large(
+        shape: CircleBorder(),
         child: const Icon(Icons.add),
         onPressed: () async {
           final FilePickerResult? filePickerResult = await FilePicker.platform
@@ -34,11 +47,29 @@ class HomeScreen extends StatelessWidget {
               id: 0,
             );
 
-            // ignore: use_build_context_synchronously
-            context.read<BooksProvider>().addBookToBookList(book);
             BookDB().create(book: book);
+            final int id = await BookDB().getLastId();
+            // final List<Book> books = await BookDB().fetchAll();
+            // int id = books.length;
+            book = await BookDB().fetchById(id);
+
+            context.read<BooksProvider>().addBookToBookList(book);
           }
         },
+      ),
+      bottomNavigationBar: LinearAnimationOpacity(
+        opacity:
+            context.watch<BooksProvider>().markedItemsCount > 0 ? 1.0 : 0.0,
+        child: const BottomAppBar(
+            padding: EdgeInsets.all(3),
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              children: [
+                UnCheckAll(),
+                Spacer(),
+                CheckAll(),
+              ],
+            )),
       ),
     );
   }

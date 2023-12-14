@@ -31,6 +31,13 @@ class BookDB {
     return books.map((book) => Book.fromSQLDatabase(book)).toList();
   }
 
+  Future<int> getLastId() async {
+    final Database database = await DatabaseService().database;
+    final id = await database
+        .rawQuery("""SELECT last_insert_rowid() FROM $tableName""");
+    return int.parse(id.first['last_insert_rowid()'].toString());
+  }
+
   Future<Book> fetchById(int id) async {
     final Database database = await DatabaseService().database;
     final book = await database
